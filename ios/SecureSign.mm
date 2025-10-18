@@ -1,12 +1,17 @@
 #import "SecureSign.h"
+#import "SecureSign-Swift.h"
 
-@implementation SecureSign
-- (NSNumber *)multiply:(double)a b:(double)b {
-    NSNumber *result = @(a * b);
-
-    return result;
+@implementation SecureSign {
+    SecureSignImpl *moduleImpl;
 }
 
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        moduleImpl = [SecureSignImpl new];
+    }
+    return self;
+}
 - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
     (const facebook::react::ObjCTurboModule::InitParams &)params
 {
@@ -16,6 +21,32 @@
 + (NSString *)moduleName
 {
   return @"SecureSign";
+}
+
+- (void)generate:(nonnull NSString *)alias options:(JS::NativeSecureSign::GenerateOptions &)options resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
+    BOOL requireBiometric = options.requireBiometric();
+    NSString *result = [moduleImpl generateWithAlias:alias requireBiometric:requireBiometric];
+    resolve(result);
+}
+
+- (void)getPublicKey:(nonnull NSString *)alias resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject { 
+    NSString *result = [moduleImpl getPublicKeyWithAlias:alias];
+    resolve(result);
+}
+
+- (void)isSupported:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject { 
+    BOOL result = [moduleImpl isSupported];
+    resolve(@(result));
+}
+
+- (void)removeKey:(nonnull NSString *)alias resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject { 
+    [moduleImpl removeKeyWithAlias:alias];
+    resolve(nil);
+}
+
+- (void)sign:(nonnull NSString *)alias information:(nonnull NSString *)information resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject { 
+    NSString *result = [moduleImpl signWithAlias:alias information:information];
+    resolve(result);
 }
 
 @end
