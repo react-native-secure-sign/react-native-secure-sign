@@ -1,6 +1,8 @@
 package com.securesign
 
+import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
+import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.module.annotations.ReactModule
 
 @ReactModule(name = SecureSignModule.NAME)
@@ -11,10 +13,24 @@ class SecureSignModule(reactContext: ReactApplicationContext) :
     return NAME
   }
 
-  // Example method
-  // See https://reactnative.dev/docs/native-modules-android
-  override fun multiply(a: Double, b: Double): Double {
-    return a * b
+  override fun generate(alias: String, options: ReadableMap?, promise: Promise) {
+    promise.resolve("Test")
+  }
+
+  override fun sign(alias: String, information: String, promise: Promise) {
+    promise.resolve("Signed")
+  }
+
+  override fun getPublicKey(alias: String, promise: Promise) {
+    promise.resolve("Public Key")
+  }
+
+  override fun removeKey(alias: String, promise: Promise) {
+    promise.resolve(null)
+  }
+
+  override fun isSupported(promise: Promise) {
+    promise.resolve(true)
   }
 
   companion object {
