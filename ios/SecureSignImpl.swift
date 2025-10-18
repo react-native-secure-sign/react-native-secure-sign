@@ -7,7 +7,7 @@ import Foundation
 
 @objc public class SecureSignImpl: NSObject {
     @objc public func generate(alias: String, requireBiometric: Bool = true) -> String {
-        return "Test"
+        return "Generated"
     }
     @objc public func sign(alias: String, information: String) -> String {
         return "Signed"

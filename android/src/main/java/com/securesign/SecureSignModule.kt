@@ -14,7 +14,8 @@ class SecureSignModule(reactContext: ReactApplicationContext) :
   }
 
   override fun generate(alias: String, options: ReadableMap?, promise: Promise) {
-    promise.resolve("Test")
+    val requireBiometric = options?.getBoolean(KEY_REQUIRE_BIOMETRIC) ?: true
+    promise.resolve("Generated")
   }
 
   override fun sign(alias: String, information: String, promise: Promise) {
@@ -35,5 +36,6 @@ class SecureSignModule(reactContext: ReactApplicationContext) :
 
   companion object {
     const val NAME = "SecureSign"
+    const val KEY_REQUIRE_BIOMETRIC = "requireBiometric"
   }
 }
