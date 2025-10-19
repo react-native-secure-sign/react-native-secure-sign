@@ -15,7 +15,9 @@ Pod::Spec.new do |s|
 
   s.source_files = "ios/**/*.{h,m,mm,cpp,swift}"
   s.private_header_files = "ios/**/*.h"
+  s.public_header_files = "ios/secure_sign_rust/libsecure_sign_rust.h"
 
+  s.vendored_libraries = "ios/secure_sign_rust/libsecure_sign_rust.a"
 
   install_modules_dependencies(s)
 end
