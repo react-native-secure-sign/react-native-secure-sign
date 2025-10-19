@@ -5,7 +5,7 @@ LIB = libsecure_sign_rust.a
 DYLIB = libsecure_sign_rust.so
 XCFRAMEWORK = secure_sign_rust.xcframework
 
-all: ios android
+all: ios android clean
 
 ios: $(XCFRAMEWORK)
 
@@ -45,5 +45,6 @@ clean:
 	rm -rf simulator_fat/
 	rm -rf $(XCFRAMEWORK)
 	rm -rf ../../ios/$(XCFRAMEWORK)
+	rm -rf generated/
 
 .PHONY: all ios android clean

@@ -5,5 +5,5 @@ class SecureSignImpl {
         System.loadLibrary("secure_sign_rust")
     }
     
-    external fun add(left: Long, right: Long): Long
+    external fun der_to_p1363(left: Long, right: Long): Long
 }

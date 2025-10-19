@@ -19,13 +19,16 @@ class SecureSignModule(reactContext: ReactApplicationContext) :
   override fun generate(alias: String, options: ReadableMap?, promise: Promise) {
     val requireBiometric = options?.getBoolean(KEY_REQUIRE_BIOMETRIC) ?: true
     
-
-      // Use rust add function
-      val result = secureSignImpl.add(52, 8)
+    try {
+      // Rust test function call
+      val result = secureSignImpl.der_to_p1363(52, 8)
       
       Log.d(NAME, "Rust add function result: $result")
       promise.resolve("Generated with Rust add result: $result")
-  
+    } catch (e: Exception) {
+      Log.e(NAME, "Error in generate: ${e.message}", e)
+      promise.reject("GENERATE_ERROR", e.message, e)
+    }
   }
 
   override fun sign(alias: String, information: String, promise: Promise) {

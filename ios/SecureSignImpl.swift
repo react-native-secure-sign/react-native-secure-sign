@@ -4,16 +4,13 @@
 //
 
 import Foundation
-
-// Import Rust library
-@_silgen_name("add")
-func add(_ left: UInt64, _ right: UInt64) -> UInt64
+import SecureSignRust
 
 @objc public class SecureSignImpl: NSObject {
     @objc public func generate(alias: String, requireBiometric: Bool = true) -> String {
-        // Example usage of Rust function
-        let result = add(7, 8)
-        return "Generated with Rust: \(result)"
+       // Rust test function call
+       let result = der_to_p1363(10, 20)
+       return String(result)
     }
     @objc public func sign(alias: String, information: String) -> String {
         return "Signed"
