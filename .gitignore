@@ -84,3 +84,9 @@ android/generated
 
 # React Native Nitro Modules
 nitrogen/
+
+# Rust
+rust/secure_sign_rust/generated/
+rust/secure_sign_rust/target/
+rust/secure_sign_rust/secure_sign_rust.xcframework/
+rust/secure_sign_rust/simulator_fat/

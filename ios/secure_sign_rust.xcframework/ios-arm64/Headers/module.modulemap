@@ -1,0 +1,4 @@
+module SecureSignRust {
+  header "libsecure_sign_rust.h"
+  export *
+}

@@ -4,29 +4,7 @@ react-native-secure-sign lets you generates and use cryptographic signatures bac
 
 ## Installation
 
-
-```sh
-npm install react-native-secure-sign
-```
-
-
 ## Usage
-
-
-```js
-import { multiply } from 'react-native-secure-sign';
-
-// ...
-
-const result = multiply(3, 7);
-```
-
-
-## Contributing
-
-- [Development workflow](CONTRIBUTING.md#development-workflow)
-- [Sending a pull request](CONTRIBUTING.md#sending-a-pull-request)
-- [Code of conduct](CODE_OF_CONDUCT.md)
 
 ## License
 

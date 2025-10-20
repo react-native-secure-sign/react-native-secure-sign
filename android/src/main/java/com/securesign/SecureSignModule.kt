@@ -1,5 +1,6 @@
 package com.securesign
 
+import android.util.Log
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableMap
@@ -9,13 +10,25 @@ import com.facebook.react.module.annotations.ReactModule
 class SecureSignModule(reactContext: ReactApplicationContext) :
   NativeSecureSignSpec(reactContext) {
 
+  private val secureSignImpl = SecureSignImpl()
+
   override fun getName(): String {
     return NAME
   }
 
   override fun generate(alias: String, options: ReadableMap?, promise: Promise) {
     val requireBiometric = options?.getBoolean(KEY_REQUIRE_BIOMETRIC) ?: true
-    promise.resolve("Generated")
+    
+    try {
+      // Rust test function call
+      val result = secureSignImpl.der_to_p1363(52, 8)
+      
+      Log.d(NAME, "Rust add function result: $result")
+      promise.resolve("Generated with Rust add result: $result")
+    } catch (e: Exception) {
+      Log.e(NAME, "Error in generate: ${e.message}", e)
+      promise.reject("GENERATE_ERROR", e.message, e)
+    }
   }
 
   override fun sign(alias: String, information: String, promise: Promise) {

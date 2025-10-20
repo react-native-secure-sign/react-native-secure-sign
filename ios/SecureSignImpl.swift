@@ -4,10 +4,13 @@
 //
 
 import Foundation
+import SecureSignRust
 
 @objc public class SecureSignImpl: NSObject {
     @objc public func generate(alias: String, requireBiometric: Bool = true) -> String {
-        return "Generated"
+       // Rust test function call
+       let result = der_to_p1363(10, 20)
+       return String(result)
     }
     @objc public func sign(alias: String, information: String) -> String {
         return "Signed"
