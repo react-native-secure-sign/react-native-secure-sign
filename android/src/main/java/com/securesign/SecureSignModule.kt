@@ -16,7 +16,7 @@ class SecureSignModule(reactContext: ReactApplicationContext) :
     return NAME
   }
 
-  override fun generate(alias: String, options: ReadableMap?, promise: Promise) {
+  override fun generate(keyId: String, options: ReadableMap?, promise: Promise) {
     val requireBiometric = options?.getBoolean(KEY_REQUIRE_BIOMETRIC) ?: true
     
     try {
@@ -31,15 +31,15 @@ class SecureSignModule(reactContext: ReactApplicationContext) :
     }
   }
 
-  override fun sign(alias: String, information: String, promise: Promise) {
+  override fun sign(keyId: String, information: String, promise: Promise) {
     promise.resolve("Signed")
   }
 
-  override fun getPublicKey(alias: String, promise: Promise) {
+  override fun getPublicKey(keyId: String, promise: Promise) {
     promise.resolve("Public Key")
   }
 
-  override fun removeKey(alias: String, promise: Promise) {
+  override fun removeKey(keyId: String, promise: Promise) {
     promise.resolve(null)
   }
 
