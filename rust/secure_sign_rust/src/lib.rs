@@ -4,6 +4,7 @@ use pkcs8::EncodePublicKey;
 use base64::engine::general_purpose::URL_SAFE_NO_PAD;
 use base64::Engine as _;
 
+// IOS
 #[unsafe(no_mangle)]
 pub extern "C" fn sec1_to_spki_der_b64url(sec1_ptr: *const u8, len: usize) -> *mut c_char {
     if sec1_ptr.is_null() || len == 0 {
@@ -41,8 +42,6 @@ pub extern "C" fn free_string(ptr: *mut c_char) {
         }
     }
 }
-
-// IOS
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn der_to_p1363(left: u64, right: u64) -> u64 {
     left + right

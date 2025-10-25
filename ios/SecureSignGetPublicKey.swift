@@ -56,7 +56,6 @@ extension SecureSignImpl {
         
         let sec1Data = keyData as Data
         
-        // Validate SEC1 format before calling Rust
         guard sec1Data.count == 65, sec1Data.first == 0x04 else {
             throw SecureSignError.publicKeyFormatConversionFailed
         }
