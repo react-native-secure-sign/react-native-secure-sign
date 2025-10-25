@@ -8,6 +8,10 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+char *sec1_to_spki_der_b64url(const uint8_t *sec1_ptr, uintptr_t len);
+
+void free_string(char *ptr);
+
 uint64_t der_to_p1363(uint64_t left, uint64_t right);
 
 #endif  /* secure_sign_rust_h */

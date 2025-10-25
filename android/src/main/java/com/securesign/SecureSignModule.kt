@@ -27,7 +27,7 @@ class SecureSignModule(reactContext: ReactApplicationContext) :
       promise.resolve("Generated with Rust add result: $result")
     } catch (e: Exception) {
       Log.e(NAME, "Error in generate: ${e.message}", e)
-      promise.reject("GENERATE_ERROR", e.message, e)
+      promise.reject("1001", null)  // Key generation failed
     }
   }
 

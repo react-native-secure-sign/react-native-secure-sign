@@ -5,7 +5,7 @@ LIB = libsecure_sign_rust.a
 DYLIB = libsecure_sign_rust.so
 XCFRAMEWORK = secure_sign_rust.xcframework
 
-all: ios android clean
+all: clean ios android 
 
 ios: $(XCFRAMEWORK)
 
@@ -32,6 +32,12 @@ $(ARCHS_ANDROID): %:
 $(XCFRAMEWORK): $(ARCHS_IOS)
 	mkdir -p simulator_fat
 	lipo -create target/x86_64-apple-ios/release/$(LIB) target/aarch64-apple-ios-sim/release/$(LIB) -output simulator_fat/$(LIB)
+	# Create module.modulemap in Headers directory
+	mkdir -p generated/include
+	echo 'module SecureSignRust {' > generated/include/module.modulemap
+	echo '  header "libsecure_sign_rust.h"' >> generated/include/module.modulemap
+	echo '  export *' >> generated/include/module.modulemap
+	echo '}' >> generated/include/module.modulemap
 	xcodebuild -create-xcframework \
 		-library target/aarch64-apple-ios/release/$(LIB) \
 		-headers generated/include \
@@ -47,4 +53,4 @@ clean:
 	rm -rf ../../ios/$(XCFRAMEWORK)
 	rm -rf generated/
 
-.PHONY: all ios android clean
+.PHONY: all clean ios android 

@@ -25,28 +25,23 @@
 
 - (void)generate:(nonnull NSString *)keyId options:(JS::NativeSecureSign::GenerateOptions &)options resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
     BOOL requireBiometric = options.requireBiometric();
-    NSString *result = [moduleImpl generateWithKeyId:keyId requireBiometric:requireBiometric];
-    resolve(result);
+    [moduleImpl generateWithKeyId:keyId requireBiometric:requireBiometric resolve:resolve reject:reject];
 }
 
 - (void)getPublicKey:(nonnull NSString *)keyId resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject { 
-    NSString *result = [moduleImpl getPublicKeyWithKeyId:keyId];
-    resolve(result);
+    [moduleImpl getPublicKeyWithKeyId:keyId resolve:resolve reject:reject];
 }
 
 - (void)isSupported:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject { 
-    BOOL result = [moduleImpl isSupported];
-    resolve(@(result));
+    [moduleImpl isSupportedWithResolve:resolve reject:reject];
 }
 
 - (void)removeKey:(nonnull NSString *)keyId resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject { 
-    [moduleImpl removeKeyWithKeyId:keyId];
-    resolve(nil);
+    [moduleImpl removeKeyWithKeyId:keyId resolve:resolve reject:reject];
 }
 
 - (void)sign:(nonnull NSString *)keyId information:(nonnull NSString *)information resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject { 
-    NSString *result = [moduleImpl signWithKeyId:keyId information:information];
-    resolve(result);
+    [moduleImpl signWithKeyId:keyId information:information resolve:resolve reject:reject];
 }
 
 @end
