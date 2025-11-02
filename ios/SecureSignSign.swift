@@ -24,7 +24,7 @@ extension SecureSignImpl {
                 
                 let algorithm = SecKeyAlgorithm.ecdsaSignatureMessageX962SHA256
                 guard SecKeyIsAlgorithmSupported(privateKey, .sign, algorithm) else {
-                    throw SecureSignError.unknownError(NSError(domain: "SecureSign", code: 5001, userInfo: [NSLocalizedDescriptionKey: "Algorithm not supported"]))
+                  throw SecureSignError.algorithmNotSupported
                 }
                 
                 var error: Unmanaged<CFError>?

@@ -73,7 +73,7 @@ Signs data using a private key stored in the hardware-backed secure storage.
 
 
 The challenge has to be in the right format, since the SDK validates them and canonicalizes them
-- `ver` - required, version has to be `S1` 
+- `ver` - required, version has to be `SS1` 
 - `alg` - required, SKD will sign the challenge with that algorithm, for now supports only `ES256`
 - `sigFormat` - required, the signature format, for now supports only `P1363`
 - `exp` - required, has to be bigger than timestamp `ts`
@@ -81,7 +81,7 @@ The challenge has to be in the right format, since the SDK validates them and ca
 **Challenge JSON Format:**
 ```json
 {
-  "ver": "S1",
+  "ver": "SS1",
   "alg": "ES256",
   "sigFormat": "P1363",
   "kid": "key-identifier",
@@ -111,6 +111,7 @@ Error codes are organized by category:
 - **1001-1011**: Key generation and management errors
 - **2001-2003**: Biometric authentication errors  
 - **3001-3009**: Challenge validation errors
+- **4001-4002**: Signature conversion errors
 - **9999**: Unknown/unexpected errors
 
 ### Error Codes
@@ -152,6 +153,13 @@ Error codes are organized by category:
 | `3007` | JSON parse error | Invalid JSON format provided |
 | `3008` | UTF8 error | Invalid UTF-8 encoding |
 | `3009` | C string conversion error | Failed to convert to C string format |
+
+#### Signature Conversion Errors (4001-4002)
+
+| Code | Description | Possible Causes |
+|------|-------------|----------------|
+| `4001` | Invalid DER format | DER signature format is invalid or corrupted |
+| `4002` | Signature conversion failed | Failed to convert DER signature to P1363 format |
 
 #### Unknown Errors (9999)
 

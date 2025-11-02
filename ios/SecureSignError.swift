@@ -39,6 +39,9 @@
 //  4001 - Invalid DER format
 //  4002 - Signature conversion failed
 //
+//  Algorithm Errors (5001):
+//  5001 - Algorithm not supported
+//
 //  General Errors (9999):
 //  9999 - Unknown error (catch-all for unexpected errors)
 //
@@ -76,6 +79,8 @@ enum SecureSignError: Error {
     // Signature conversion errors
     case invalidDerFormat
     case signatureConversionFailed
+    // Algorithm errors
+    case algorithmNotSupported
     // General errors
     case unknownError(Error)
     
@@ -134,6 +139,9 @@ enum SecureSignError: Error {
             return 4001
         case .signatureConversionFailed:
             return 4002
+        // Algorithm errors
+        case .algorithmNotSupported:
+            return 5001
         // General errors
         case .unknownError:
             return 9999
