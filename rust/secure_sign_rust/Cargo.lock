@@ -647,6 +647,8 @@ dependencies = [
  "libc",
  "p256",
  "pkcs8",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]

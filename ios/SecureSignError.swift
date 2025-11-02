@@ -5,6 +5,7 @@
 //
 //  Error Codes Documentation:
 //  =========================
+//  Key Management Errors (1001-1011):
 //  1001 - Key generation failed (Secure Enclave error)
 //  1002 - Public key extraction failed
 //  1003 - Access control creation failed
@@ -15,10 +16,30 @@
 //  1008 - Authentication failed (biometric/passcode required)
 //  1009 - Keychain query failed (system error)
 //  1010 - Public key format conversion failed (SEC1 to SPKI)
+//  1011 - Key already exists
+//
+//
+//  Biometric Errors (2001-2003):
 //  2001 - Biometric authentication not available
 //  2002 - No biometric data enrolled
 //  2003 - Biometric authentication locked out (too many failed attempts)
-//  3001 - Key already exists
+//
+//  Challenge Validation Errors (3001-3009):
+//  3001 - Invalid input (null pointer or empty data)
+//  3002 - Invalid version (must be "SS1")
+//  3003 - Invalid algorithm (must be "ES256")
+//  3004 - Invalid signature format (must be "P1363")
+//  3005 - Invalid expiration (exp must be > ts)
+//  3006 - Forbidden characters (contains | or \0)
+//  3007 - JSON parse error
+//  3008 - UTF8 error
+//  3009 - C string conversion error
+//
+//  Signature Conversion Errors (4001-4005):
+//  4001 - Invalid DER format
+//  4002 - Signature conversion failed
+//
+//  General Errors (9999):
 //  9999 - Unknown error (catch-all for unexpected errors)
 //
 
@@ -26,6 +47,7 @@ import Foundation
 import Security
 
 enum SecureSignError: Error {
+    // Key management errors
     case keyGenerationFailed(CFError?)
     case publicKeyExtractionFailed
     case accessControlCreationFailed
@@ -36,10 +58,25 @@ enum SecureSignError: Error {
     case authenticationFailed
     case keychainQueryFailed(OSStatus)
     case publicKeyFormatConversionFailed
+    case keyAlreadyExists
+    // Biometric errors
     case biometricNotAvailable
     case biometricNotEnrolled
     case biometricLockout
-    case keyAlreadyExists
+    // Challenge validation errors
+    case invalidInput
+    case invalidVersion
+    case invalidAlgorithm
+    case invalidSigFormat
+    case invalidExpiration
+    case forbiddenChars
+    case jsonParseError
+    case utf8Error
+    case cStringError
+    // Signature conversion errors
+    case invalidDerFormat
+    case signatureConversionFailed
+    // General errors
     case unknownError(Error)
     
     var errorCode: Int {
@@ -64,16 +101,43 @@ enum SecureSignError: Error {
             return 1009
         case .publicKeyFormatConversionFailed:
             return 1010
+        case .keyAlreadyExists:
+            return 1011
+        // Biometric errors
         case .biometricNotAvailable:
             return 2001
         case .biometricNotEnrolled:
             return 2002
         case .biometricLockout:
             return 2003
-        case .keyAlreadyExists:
+        // Challenge validation errors
+        case .invalidInput:
             return 3001
+        case .invalidVersion:
+            return 3002
+        case .invalidAlgorithm:
+            return 3003
+        case .invalidSigFormat:
+            return 3004
+        case .invalidExpiration:
+            return 3005
+        case .forbiddenChars:
+            return 3006
+        case .jsonParseError:
+            return 3007
+        case .utf8Error:
+            return 3008
+        case .cStringError:
+            return 3009
+        // Signature conversion errors
+        case .invalidDerFormat:
+            return 4001
+        case .signatureConversionFailed:
+            return 4002
+        // General errors
         case .unknownError:
             return 9999
         }
+        
     }
 }

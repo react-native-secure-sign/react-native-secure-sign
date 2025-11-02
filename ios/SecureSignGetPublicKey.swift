@@ -10,39 +10,8 @@ import React
 import SecureSignRust
 
 extension SecureSignImpl {
-    
-    private func loadKeyFromKeychain(keyId: String) throws -> SecKey {
-        guard let tag = keyId.data(using: .utf8) else {
-            throw SecureSignError.invalidKeyId
-        }
 
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassKey,
-            kSecAttrApplicationTag as String: tag,
-            kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
-            kSecAttrKeyClass as String: kSecAttrKeyClassPrivate,
-            kSecReturnRef as String: true,
-            kSecMatchLimit as String: kSecMatchLimitOne
-        ]
-
-        var item: CFTypeRef?
-        let status = SecItemCopyMatching(query as CFDictionary, &item)
-
-        switch status {
-        case errSecSuccess:
-            let privateKey = item as! SecKey
-            return privateKey
-
-        case errSecItemNotFound:
-            throw SecureSignError.keyNotFound
-
-        case errSecAuthFailed:
-            throw SecureSignError.authenticationFailed
-
-        default:
-            throw SecureSignError.keychainQueryFailed(status)
-        }
-    }
+    private static let localizedReason = "Authenticate to get the public key"
     
     private func extractPublicKey(from privateKeyReference: SecKey) throws -> String {
         guard let publicKey = SecKeyCopyPublicKey(privateKeyReference) else {
@@ -78,7 +47,7 @@ extension SecureSignImpl {
     @objc public func getPublicKey(keyId: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
         DispatchQueue.global(qos: .userInitiated).async {
             do {
-                let privateKeyReference = try self.loadKeyFromKeychain(keyId: keyId)
+                let privateKeyReference = try self.loadKeyFromKeychain(keyId: keyId, prompt: Self.localizedReason)
                 let publicKeyBase64 = try self.extractPublicKey(from: privateKeyReference)
                 resolve(publicKeyBase64)
             } catch let error as SecureSignError {
