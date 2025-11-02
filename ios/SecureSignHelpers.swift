@@ -6,23 +6,27 @@
 
 import Foundation
 import Security
+import LocalAuthentication
 import SecureSignRust
 
 extension SecureSignImpl {
     
-    func loadKeyFromKeychain(keyId: String, prompt: String) throws -> SecKey {
+    func loadKeyFromKeychain(keyId: String) throws -> SecKey {
         guard let tag = keyId.data(using: .utf8) else {
             throw SecureSignError.invalidKeyId
         }
 
-        var query: [String: Any] = [
+        let authContext = LAContext()
+        authContext.localizedReason = "Authenticate to access the key"
+        
+        let query: [String: Any] = [
             kSecClass as String: kSecClassKey,
             kSecAttrApplicationTag as String: tag,
             kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
             kSecAttrKeyClass as String: kSecAttrKeyClassPrivate,
             kSecReturnRef as String: true,
             kSecMatchLimit as String: kSecMatchLimitOne,
-            kSecUseOperationPrompt as String: prompt
+            kSecUseAuthenticationContext as String: authContext
         ]
 
         var item: CFTypeRef?

@@ -6,37 +6,70 @@
 
 import Foundation
 import Security
+import LocalAuthentication
 import React
 
 extension SecureSignImpl {
     
-    private static let localizedReason = "Authenticate to sign the challenge"
+    private func mapCFErrorToSecureSignError(_ cfError: CFError) -> SecureSignError {
+        let ns = cfError as Error as NSError
+        
+        if ns.domain == LAError.errorDomain {
+            let laError = LAError(_nsError: ns)
+            switch laError.code {
+            case .userCancel, .appCancel, .systemCancel:
+                return .authenticationFailed
+            case .biometryNotAvailable:
+                return .biometricNotAvailable
+            case .biometryNotEnrolled:
+                return .biometricNotEnrolled
+            case .biometryLockout:
+                return .biometricLockout
+            default:
+                return .authenticationFailed
+            }
+        }
+        
+        if ns.domain == NSOSStatusErrorDomain {
+            switch OSStatus(ns.code) {
+            case errSecAuthFailed, errSecInteractionNotAllowed:
+                return .authenticationFailed
+            case errSecItemNotFound:
+                return .keyNotFound
+            default:
+                return .unknownError(ns)
+            }
+        }
+        
+        return .unknownError(ns)
+    }
     
     @objc public func sign(keyId: String, information: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
-        
-        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
             do {
                 let canonicalData = try self.canonicalizeChallenge(jsonString: information)
-                let privateKey = try self.loadKeyFromKeychain(
-                    keyId: keyId,
-                    prompt: Self.localizedReason
-                )
+                
+                let privateKey = try self.loadKeyFromKeychain(keyId: keyId)
                 
                 let algorithm = SecKeyAlgorithm.ecdsaSignatureMessageX962SHA256
                 guard SecKeyIsAlgorithmSupported(privateKey, .sign, algorithm) else {
-                  throw SecureSignError.algorithmNotSupported
+                    throw SecureSignError.algorithmNotSupported
                 }
                 
                 var error: Unmanaged<CFError>?
                 guard let derSignature = SecKeyCreateSignature(privateKey, algorithm, canonicalData as CFData, &error) as Data? else {
                     if let cfError = error?.takeRetainedValue() {
-                        throw SecureSignError.unknownError(cfError as Error)
+                        throw self.mapCFErrorToSecureSignError(cfError)
                     }
                     throw SecureSignError.authenticationFailed
                 }
-                let p1363Signature = try self.convertDerToP1363(derSignature: derSignature)
-                let signatureBase64url = self.base64urlEncode(p1363Signature)
-                resolve(signatureBase64url)
+                
+                let p1363 = try self.convertDerToP1363(derSignature: derSignature)
+                let sig = self.base64urlEncode(p1363)
+                resolve(sig)
+                
             } catch let error as SecureSignError {
                 reject("\(error.errorCode)", nil, error)
             } catch {

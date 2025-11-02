@@ -10,8 +10,6 @@ import React
 import SecureSignRust
 
 extension SecureSignImpl {
-
-    private static let localizedReason = "Authenticate to get the public key"
     
     private func extractPublicKey(from privateKeyReference: SecKey) throws -> String {
         guard let publicKey = SecKeyCopyPublicKey(privateKeyReference) else {
@@ -45,9 +43,11 @@ extension SecureSignImpl {
     }
     
     @objc public func getPublicKey(keyId: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
-        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self else { return }
+            
             do {
-                let privateKeyReference = try self.loadKeyFromKeychain(keyId: keyId, prompt: Self.localizedReason)
+                let privateKeyReference = try self.loadKeyFromKeychain(keyId: keyId)
                 let publicKeyBase64 = try self.extractPublicKey(from: privateKeyReference)
                 resolve(publicKeyBase64)
             } catch let error as SecureSignError {
