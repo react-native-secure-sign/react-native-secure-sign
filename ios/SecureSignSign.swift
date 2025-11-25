@@ -49,7 +49,7 @@ extension SecureSignImpl {
             guard let self = self else { return }
             
             do {
-                let canonicalData = try self.canonicalizeChallenge(jsonString: information)
+                let dataToSign = try self.base64urlDecode(information)
                 
                 let privateKey = try self.loadKeyFromKeychain(keyId: keyId)
                 
@@ -57,9 +57,9 @@ extension SecureSignImpl {
                 guard SecKeyIsAlgorithmSupported(privateKey, .sign, algorithm) else {
                     throw SecureSignError.algorithmNotSupported
                 }
-                
+        
                 var error: Unmanaged<CFError>?
-                guard let derSignature = SecKeyCreateSignature(privateKey, algorithm, canonicalData as CFData, &error) as Data? else {
+                guard let derSignature = SecKeyCreateSignature(privateKey, algorithm, dataToSign as CFData, &error) as Data? else {
                     if let cfError = error?.takeRetainedValue() {
                         throw self.mapCFErrorToSecureSignError(cfError)
                     }

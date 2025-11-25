@@ -51,52 +51,7 @@ extension SecureSignImpl {
     }
     
     
-    func canonicalizeChallenge(jsonString: String) throws -> Data {
-        guard let jsonData = jsonString.data(using: .utf8), !jsonData.isEmpty else {
-            throw SecureSignError.invalidInput
-        }
-
-        var errorCode: Int32 = 0
-        let canonicalString: String? = jsonData.withUnsafeBytes { rawBuf -> String? in
-            guard let rawBase = rawBuf.baseAddress else { return nil }
-            var local: Int32 = 0
-            let res = withUnsafeMutablePointer(to: &local) { errPtr -> String? in
-                guard let cPtr = canonicalize_challenge(
-                    rawBase.assumingMemoryBound(to: UInt8.self),
-                    UInt(rawBuf.count),
-                    errPtr
-                ) else { return nil }
-                defer { free_string(cPtr) }
-                return String(cString: cPtr)
-            }
-            errorCode = (res == nil) ? local : 0
-            return res
-        }
-
-        guard let canonical = canonicalString, !canonical.isEmpty else {
-            switch errorCode {
-            case 3001: throw SecureSignError.invalidInput
-            case 3002: throw SecureSignError.invalidVersion
-            case 3003: throw SecureSignError.invalidAlgorithm
-            case 3004: throw SecureSignError.invalidSigFormat
-            case 3005: throw SecureSignError.invalidExpiration
-            case 3006: throw SecureSignError.forbiddenChars
-            case 3007: throw SecureSignError.jsonParseError
-            case 3008: throw SecureSignError.utf8Error
-            case 3009: throw SecureSignError.cStringError
-            default:   throw SecureSignError.unknownError(NSError(domain: "SecureSign", code: Int(errorCode)))
-            }
-        }
-
-        guard let canonicalData = canonical.data(using: .utf8) else {
-            throw SecureSignError.utf8Error
-        }
-        return canonicalData
-    }
-    
-    
     func convertDerToP1363(derSignature: Data) throws -> Data {
-        
         let p1363Data = derSignature.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) -> Data? in
             guard let rawBase = bytes.baseAddress else {
                 return nil
@@ -121,6 +76,20 @@ extension SecureSignImpl {
         return p1363
     }
     
+    
+    func base64urlDecode(_ base64url: String) throws -> Data {
+        var base64 = base64url
+            .replacingOccurrences(of: "-", with: "+")
+            .replacingOccurrences(of: "_", with: "/")
+        let remainder = base64.count % 4
+        if remainder > 0 {
+            base64 += String(repeating: "=", count: 4 - remainder)
+        }
+        guard let data = Data(base64Encoded: base64) else {
+            throw SecureSignError.invalidInput
+        }
+        return data
+    }
     
     func base64urlEncode(_ data: Data) -> String {
         let base64 = data.base64EncodedString()

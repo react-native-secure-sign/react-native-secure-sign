@@ -1,4 +1,3 @@
-mod challenge;
 mod cryptographic;
 mod ffi;
 mod jni_android;

@@ -10,8 +10,6 @@
 
 char *sec1_to_spki_der_b64url(const uint8_t *sec1_ptr, uintptr_t len);
 
-char *canonicalize_challenge(const uint8_t *json_ptr, uintptr_t len, int32_t *error_code_ptr);
-
 uint8_t *der_to_p1363(const uint8_t *der_ptr, uintptr_t len);
 
 void free_bytes(uint8_t *ptr);
