@@ -23,30 +23,25 @@
   return @"SecureSign";
 }
 
-- (void)generate:(nonnull NSString *)alias options:(JS::NativeSecureSign::GenerateOptions &)options resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
+- (void)generate:(nonnull NSString *)keyId options:(JS::NativeSecureSign::GenerateOptions &)options resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
     BOOL requireBiometric = options.requireBiometric();
-    NSString *result = [moduleImpl generateWithAlias:alias requireBiometric:requireBiometric];
-    resolve(result);
+    [moduleImpl generateWithKeyId:keyId requireBiometric:requireBiometric resolve:resolve reject:reject];
 }
 
-- (void)getPublicKey:(nonnull NSString *)alias resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject { 
-    NSString *result = [moduleImpl getPublicKeyWithAlias:alias];
-    resolve(result);
+- (void)getPublicKey:(nonnull NSString *)keyId resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject { 
+    [moduleImpl getPublicKeyWithKeyId:keyId resolve:resolve reject:reject];
 }
 
 - (void)isSupported:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject { 
-    BOOL result = [moduleImpl isSupported];
-    resolve(@(result));
+    [moduleImpl isSupportedWithResolve:resolve reject:reject];
 }
 
-- (void)removeKey:(nonnull NSString *)alias resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject { 
-    [moduleImpl removeKeyWithAlias:alias];
-    resolve(nil);
+- (void)removeKey:(nonnull NSString *)keyId resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject { 
+    [moduleImpl removeKeyWithKeyId:keyId resolve:resolve reject:reject];
 }
 
-- (void)sign:(nonnull NSString *)alias information:(nonnull NSString *)information resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject { 
-    NSString *result = [moduleImpl signWithAlias:alias information:information];
-    resolve(result);
+- (void)sign:(nonnull NSString *)keyId information:(nonnull NSString *)information resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject { 
+    [moduleImpl signWithKeyId:keyId information:information resolve:resolve reject:reject];
 }
 
 @end

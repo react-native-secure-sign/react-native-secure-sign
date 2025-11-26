@@ -16,7 +16,7 @@ class SecureSignModule(reactContext: ReactApplicationContext) :
     return NAME
   }
 
-  override fun generate(alias: String, options: ReadableMap?, promise: Promise) {
+  override fun generate(keyId: String, options: ReadableMap?, promise: Promise) {
     val requireBiometric = options?.getBoolean(KEY_REQUIRE_BIOMETRIC) ?: true
     
     try {
@@ -27,19 +27,19 @@ class SecureSignModule(reactContext: ReactApplicationContext) :
       promise.resolve("Generated with Rust add result: $result")
     } catch (e: Exception) {
       Log.e(NAME, "Error in generate: ${e.message}", e)
-      promise.reject("GENERATE_ERROR", e.message, e)
+      promise.reject("1001", null)  // Key generation failed
     }
   }
 
-  override fun sign(alias: String, information: String, promise: Promise) {
+  override fun sign(keyId: String, information: String, promise: Promise) {
     promise.resolve("Signed")
   }
 
-  override fun getPublicKey(alias: String, promise: Promise) {
+  override fun getPublicKey(keyId: String, promise: Promise) {
     promise.resolve("Public Key")
   }
 
-  override fun removeKey(alias: String, promise: Promise) {
+  override fun removeKey(keyId: String, promise: Promise) {
     promise.resolve(null)
   }
 
