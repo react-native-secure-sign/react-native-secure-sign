@@ -89,6 +89,7 @@ Error codes are organized by category:
 
 - **1001-1011**: Key generation and management errors
 - **2001-2003**: Biometric authentication errors
+- **3001**: Decode error
 - **4001-4002**: Signature conversion errors
 - **9999**: Unknown/unexpected errors
 
@@ -117,6 +118,12 @@ Error codes are organized by category:
 | `2001` | Biometric authentication not available | Device doesn't support biometrics, disabled in settings |
 | `2002` | No biometric data enrolled             | User hasn't set up Touch ID/Face ID                     |
 | `2003` | Biometric authentication locked out    | Too many failed biometric attempts                      |
+
+### Decode Error
+
+| Code   | Description  | Possible Causes        |
+| ------ | ------------ | ---------------------- |
+| `3001` | Decode error | Decode base64Url error |
 
 #### Signature Conversion Errors (4001-4002)
 

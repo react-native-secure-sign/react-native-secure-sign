@@ -115,25 +115,9 @@ enum SecureSignError: Error {
             return 2002
         case .biometricLockout:
             return 2003
-        // Challenge validation errors
+        // Decode errors
         case .invalidInput:
             return 3001
-        case .invalidVersion:
-            return 3002
-        case .invalidAlgorithm:
-            return 3003
-        case .invalidSigFormat:
-            return 3004
-        case .invalidExpiration:
-            return 3005
-        case .forbiddenChars:
-            return 3006
-        case .jsonParseError:
-            return 3007
-        case .utf8Error:
-            return 3008
-        case .cStringError:
-            return 3009
         // Signature conversion errors
         case .invalidDerFormat:
             return 4001
