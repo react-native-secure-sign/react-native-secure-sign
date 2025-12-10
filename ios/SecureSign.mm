@@ -32,8 +32,8 @@
     [moduleImpl getPublicKeyWithKeyId:keyId resolve:resolve reject:reject];
 }
 
-- (void)isSupported:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject { 
-    [moduleImpl isSupportedWithResolve:resolve reject:reject];
+- (void)checkHardwareSupport:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject { 
+    [moduleImpl checkHardwareSupportWithResolve:resolve reject:reject];
 }
 
 - (void)removeKey:(nonnull NSString *)keyId resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject { 

@@ -5,6 +5,10 @@ import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.module.annotations.ReactModule
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @ReactModule(name = SecureSignModule.NAME)
 class SecureSignModule(reactContext: ReactApplicationContext) :
@@ -18,16 +22,12 @@ class SecureSignModule(reactContext: ReactApplicationContext) :
 
   override fun generate(keyId: String, options: ReadableMap?, promise: Promise) {
     val requireBiometric = options?.getBoolean(KEY_REQUIRE_BIOMETRIC) ?: true
-    
     try {
-      // Rust test function call
-      val result = secureSignImpl.der_to_p1363(52, 8)
-      
-      Log.d(NAME, "Rust add function result: $result")
-      promise.resolve("Generated with Rust add result: $result")
+      val publicKeyBase64 = SecureSignGenerate.generateKey(keyId, requireBiometric)
+      promise.resolve(publicKeyBase64)
     } catch (e: Exception) {
       Log.e(NAME, "Error in generate: ${e.message}", e)
-      promise.reject("1001", null)  // Key generation failed
+      promise.reject("1001", e.message, e)
     }
   }
 
@@ -43,8 +43,17 @@ class SecureSignModule(reactContext: ReactApplicationContext) :
     promise.resolve(null)
   }
 
-  override fun isSupported(promise: Promise) {
-    promise.resolve(true)
+  override fun checkHardwareSupport(promise: Promise) {
+    CoroutineScope(Dispatchers.Default).launch {
+      val supported = try {
+        SecureSignSupport.checkHardwareSupport(reactApplicationContext)
+      } catch (e: Exception) {
+        false
+      }
+      withContext(Dispatchers.Main) {
+        promise.resolve(supported)
+      }
+    }
   }
 
   companion object {

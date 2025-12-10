@@ -56,16 +56,16 @@ Removes a key pair from the secure storage.
 await removeKey('my-key');
 ```
 
-#### `isSupported(): Promise<boolean>`
+#### `checkHardwareSupport(): Promise<boolean>`
 
-Checks if the device supports hardware-backed secure storage (Secure Enclave on iOS, HSM on Android).
+Checks if the device supports hardware-backed secure storage.
 
 **Returns:** Promise<boolean> - Whether hardware-backed security is supported
 
 **Example:**
 
 ```javascript
-const supported = await isSupported();
+const supported = await checkHardwareSupport();
 ```
 
 #### `sign(keyId: string, information: string): Promise<string>`

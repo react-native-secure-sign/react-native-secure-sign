@@ -68,14 +68,6 @@ enum SecureSignError: Error {
     case biometricLockout
     // Challenge validation errors
     case invalidInput
-    case invalidVersion
-    case invalidAlgorithm
-    case invalidSigFormat
-    case invalidExpiration
-    case forbiddenChars
-    case jsonParseError
-    case utf8Error
-    case cStringError
     // Signature conversion errors
     case invalidDerFormat
     case signatureConversionFailed
