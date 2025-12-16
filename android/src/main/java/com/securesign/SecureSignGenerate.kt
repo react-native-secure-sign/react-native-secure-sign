@@ -92,7 +92,6 @@ object SecureSignGenerate {
             kpg.generateKeyPair()
 
         } catch (e: Exception) {
-            Log.e("SecureSign", "Key generation failed", e)
             throw SecureSignError.KeyGenerationFailed(e)
         }
     }
