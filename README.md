@@ -8,7 +8,7 @@ react-native-secure-sign lets you generates and use cryptographic signatures bac
 
 ### Methods
 
-#### `generate(keyId: string, options?: { requireBiometric?: boolean }): Promise<string>`
+#### `generate(keyId: string, options?: { requireUserAuthentication?: boolean }): Promise<string>`
 
 Generates a new key pair in the Secure Enclave (iOS) or Hardware Security Module (Android).
 
@@ -16,14 +16,14 @@ Generates a new key pair in the Secure Enclave (iOS) or Hardware Security Module
 
 - `keyId` (string): Unique identifier for the key
 - `options` (object, optional):
-  - `requireBiometric` (boolean, default: true): Require biometric authentication to use the key
+  - `requireUserAuthentication` (boolean, default: true): Require biometric authentication to use the key
 
 **Returns:** Promise<string> - Base64url-encoded SPKI DER public key
 
 **Example:**
 
 ```javascript
-const publicKey = await generate('my-key', { requireBiometric: true });
+const publicKey = await generate('my-key', { requireUserAuthentication: true });
 ```
 
 #### `getPublicKey(keyId: string): Promise<string>`
@@ -87,15 +87,15 @@ This library returns only error codes, not error messages. All error handling sh
 
 Error codes are organized by category:
 
-- **1001-1011**: Key generation and management errors
-- **2001-2003**: Biometric authentication errors
+- **1001-1012**: Key generation and management errors
+- **2001-2004**: Biometric authentication errors
 - **3001**: Decode error
 - **4001-4002**: Signature conversion errors
 - **9999**: Unknown/unexpected errors
 
 ### Error Codes
 
-#### Key Generation and Management (1001-1011)
+#### Key Generation and Management (1001-1012)
 
 | Code   | Description                         | Possible Causes                                                |
 | ------ | ----------------------------------- | -------------------------------------------------------------- |
@@ -110,14 +110,16 @@ Error codes are organized by category:
 | `1009` | Keychain query failed               | A general error occurred during a Keychain query operation     |
 | `1010` | Public key format conversion failed | SEC1 to SPKI DER conversion failed (Rust FFI error)            |
 | `1011` | Key already exists                  | Attempting to generate key with existing alias                 |
+| `1012` | Key info extraction failed (Android) | Cannot retrieve key properties from KeyStore                   |
 
-#### Biometric Authentication (2001-2003)
+#### Biometric Authentication (2001-2004)
 
 | Code   | Description                            | Possible Causes                                         |
 | ------ | -------------------------------------- | ------------------------------------------------------- |
 | `2001` | Biometric authentication not available | Device doesn't support biometrics, disabled in settings |
 | `2002` | No biometric data enrolled             | User hasn't set up Touch ID/Face ID                     |
 | `2003` | Biometric authentication locked out    | Too many failed biometric attempts                      |
+| `2004` | Authentication cancelled               | User cancelled the biometric authentication prompt      |
 
 ### Decode Error
 
@@ -143,7 +145,7 @@ Error codes are organized by category:
 ```javascript
 // Example of usage
 try {
-  const result = await generate('my-key', { requireBiometric: true });
+  const result = await generate('my-key', { requireUserAuthentication: true });
   console.log('Success:', result);
 } catch (error) {
   console.log('Error Code:', error.code);

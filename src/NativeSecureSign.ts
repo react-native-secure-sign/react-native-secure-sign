@@ -1,6 +1,6 @@
 import { TurboModuleRegistry, type TurboModule } from 'react-native';
 interface GenerateOptions {
-  requireBiometric: boolean;
+  requireUserAuthentication: boolean;
 }
 
 type PublicKeyPem = string;

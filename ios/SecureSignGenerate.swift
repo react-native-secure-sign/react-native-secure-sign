@@ -35,10 +35,10 @@ extension SecureSignImpl {
     }
     
     
-    private func createAccessControl(requireBiometric: Bool) throws -> SecAccessControl {
+    private func createAccessControl(requireUserAuthentication: Bool) throws -> SecAccessControl {
         var accessControlFlags: SecAccessControlCreateFlags = []
         
-        if requireBiometric {
+        if requireUserAuthentication {
             accessControlFlags.insert(.biometryAny)
         }
         
@@ -56,8 +56,8 @@ extension SecureSignImpl {
         return accessControl
     }
     
-    private func generateKeyPair(keyId: String, requireBiometric: Bool) throws -> String {
-        if requireBiometric {
+    private func generateKeyPair(keyId: String, requireUserAuthentication: Bool) throws -> String {
+        if requireUserAuthentication {
             try checkBiometricAvailability()
         }
         
@@ -65,7 +65,7 @@ extension SecureSignImpl {
             throw SecureSignError.keyAlreadyExists
         }
         
-        let accessControl = try createAccessControl(requireBiometric: requireBiometric)
+        let accessControl = try createAccessControl(requireUserAuthentication: requireUserAuthentication)
         
         let keyAttributes: [String: Any] = [
             kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
@@ -128,10 +128,10 @@ extension SecureSignImpl {
     }
     
     
-    @objc public func generate(keyId: String, requireBiometric: Bool = true, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+    @objc public func generate(keyId: String, requireUserAuthentication: Bool = true, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
         DispatchQueue.global(qos: .userInitiated).async {
             do {
-                let publicKey = try self.generateKeyPair(keyId: keyId, requireBiometric: requireBiometric)
+                let publicKey = try self.generateKeyPair(keyId: keyId, requireUserAuthentication: requireUserAuthentication)
                 resolve(publicKey)
             } catch let error as SecureSignError {
                 reject("\(error.errorCode)", nil, error)
