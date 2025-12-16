@@ -17,17 +17,7 @@ object SecureSignGenerate {
 
             generateKeyPair(keyId, requireUserAuthentication)
 
-            val publicKey = getPublicKey(keyId)
-                ?: throw SecureSignError.PublicKeyExtractionFailed
-
-            val encoded = publicKey.encoded
-            if (encoded.isEmpty()) throw SecureSignError.PublicKeyFormatConversionFailed
-
-            return try {
-                SecureSignHelpers.base64UrlEncode(encoded)
-            } catch (_: Exception) {
-                throw SecureSignError.PublicKeyFormatConversionFailed
-            }
+            return SecureSignGetPublicKey.getPublicKey(keyId)
 
         } catch (e: SecureSignError) {
             throw e
@@ -96,8 +86,4 @@ object SecureSignGenerate {
         }
     }
 
-    private fun getPublicKey(keyId: String): java.security.PublicKey? {
-        val ks = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
-        return ks.getCertificate(keyId)?.publicKey
-    }
 }
