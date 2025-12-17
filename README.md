@@ -1,15 +1,5 @@
 # react-native-secure-sign
 
-<p align="center">
-  <img
-    width="120"
-    height="120"
-    alt="react-native-secure-sign"
-    src="https://github.com/user-attachments/assets/c7fca763-5ddc-4257-a959-6077a21e68ee"
-  />
-</p>
-
-
 ### `react-native-secure-sign` provides a cross-platform API to generate and use non-exportable ECDSA keys stored in Android Keystore and iOS Secure Enclave, with optional biometric authentication for every signing operation.
 
 ## Installation
