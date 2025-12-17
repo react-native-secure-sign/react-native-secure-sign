@@ -1,7 +1,7 @@
 <p align="center">
   <img
-    width="140"
-    height="140"
+    width="200"
+    height="200"
     alt="react-native-secure-sign"
     src="https://github.com/user-attachments/assets/c7fca763-5ddc-4257-a959-6077a21e68ee"
   />
