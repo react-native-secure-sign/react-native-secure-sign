@@ -1,8 +1,8 @@
 <h1 align="center">
   <img
     src="https://github.com/user-attachments/assets/c7fca763-5ddc-4257-a959-6077a21e68ee"
-    width="40"
-    height="40"
+    width="100"
+    height="100"
     alt="react-native-secure-sign"
     style="vertical-align: middle;"
   />
