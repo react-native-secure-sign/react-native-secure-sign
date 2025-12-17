@@ -1,5 +1,5 @@
 # react-native-secure-sign
-### `react-native-secure-sign` lets you generate and use cryptographic signatures backed by hardware security on iOS and Android
+### `react-native-secure-sign` provides a cross-platform API to generate and use non-exportable ECDSA keys stored in Android Keystore and iOS Secure Enclave, with optional biometric authentication for every signing operation.
 
 ## Installation
 
