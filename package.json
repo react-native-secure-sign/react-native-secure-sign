@@ -1,6 +1,6 @@
 {
   "name": "react-native-secure-sign",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "react-native-secure-sign lets you generates and use cryptographic signatures backed by hardware security on iOS and Android",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
@@ -49,7 +49,7 @@
     "type": "git",
     "url": "git+https://github.com/react-native-secure-sign/react-native-secure-sign.git"
   },
-  "author": "Bartosz Dadok & Yasin Bilgin <expo.secure.sign@gmail.com> (https://github.com/react-native-secure-sign/react-native-secure-sign)",
+  "author": "Bartosz Dadok <bartoszdadok@gmail.com> (https://github.com/react-native-secure-sign/react-native-secure-sign)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/react-native-secure-sign/react-native-secure-sign/issues"
