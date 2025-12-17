@@ -162,7 +162,7 @@ Error codes are organized by category:
 | `2003` | Biometric authentication locked out    | Too many failed biometric attempts                      |
 | `2004` | Authentication cancelled               | User cancelled the biometric authentication prompt      |
 
-### Decode Error
+#### Decode Error
 
 | Code   | Description  | Possible Causes        |
 | ------ | ------------ | ---------------------- |
