@@ -1,6 +1,4 @@
-# react-native-secure-sign
-
-`react-native-secure-sign` lets you generates and use cryptographic signatures backed by hardware security on iOS and Android
+# react-native-secure-sign - lets you generate and use cryptographic signatures backed by hardware security on iOS and Android
 
 ## Installation
 
