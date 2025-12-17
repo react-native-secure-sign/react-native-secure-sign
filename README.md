@@ -1,6 +1,6 @@
 # react-native-secure-sign
 
-### `react-native-secure-sign` provides a cross-platform API to generate and use non-exportable signing keys stored in Android Keystore (hardware-backed via TEE or StrongBox) and iOS Secure Enclave, with optional biometric authentication.
+### `react-native-secure-sign` provides a cross-platform API to generate and use non-exportable signing keys stored in Android Keystore(hardware-backed via TEE or StrongBox) and iOS Secure Enclave, with optional biometric authentication.
 
 ### Why use hardware-backed signing keys?
 
