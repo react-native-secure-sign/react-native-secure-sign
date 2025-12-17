@@ -2,8 +2,8 @@
   <span style="display: inline-flex; align-items: center; gap: 8px;">
     <img
       src="https://github.com/user-attachments/assets/c7fca763-5ddc-4257-a959-6077a21e68ee"
-      width="36"
-      height="36"
+      width="80"
+      height="80"
       alt="logo"
     />
     react-native-secure-sign
