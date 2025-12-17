@@ -1,6 +1,6 @@
 import { TurboModuleRegistry, type TurboModule } from 'react-native';
 interface GenerateOptions {
-  requireBiometric: boolean;
+  requireUserAuthentication: boolean;
 }
 
 type PublicKeyPem = string;
@@ -10,7 +10,7 @@ export interface Spec extends TurboModule {
   sign(keyId: string, information: string): Promise<string>;
   getPublicKey(keyId: string): Promise<PublicKeyPem>;
   removeKey(keyId: string): Promise<void>;
-  isSupported(): Promise<boolean>;
+  checkHardwareSupport(): Promise<boolean>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('SecureSign');

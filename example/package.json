@@ -10,14 +10,10 @@
     "build:ios": "react-native build-ios --mode Debug"
   },
   "dependencies": {
-    "@hexagon/base64": "^2.0.4",
-    "@react-native/new-app-screen": "0.81.1",
     "axios": "^1.13.2",
-    "base64url": "^3.0.1",
-    "buffer": "^6.0.3",
-    "js-base64": "^3.7.8",
     "react": "19.1.0",
     "react-native": "0.81.1",
+    "react-native-base64": "^0.2.2",
     "react-native-safe-area-context": "^5.5.2"
   },
   "devDependencies": {
@@ -31,6 +27,7 @@
     "@react-native/metro-config": "0.81.1",
     "@react-native/typescript-config": "0.81.1",
     "@types/react": "^19.1.0",
+    "@types/react-native-base64": "^0.2.2",
     "react-native-builder-bob": "^0.40.13",
     "react-native-monorepo-config": "^0.1.9"
   },

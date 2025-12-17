@@ -26,14 +26,6 @@
 //
 //  Challenge Validation Errors (3001-3009):
 //  3001 - Invalid input (null pointer or empty data)
-//  3002 - Invalid version (must be "SS1")
-//  3003 - Invalid algorithm (must be "ES256")
-//  3004 - Invalid signature format (must be "P1363")
-//  3005 - Invalid expiration (exp must be > ts)
-//  3006 - Forbidden characters (contains | or \0)
-//  3007 - JSON parse error
-//  3008 - UTF8 error
-//  3009 - C string conversion error
 //
 //  Signature Conversion Errors (4001-4005):
 //  4001 - Invalid DER format
@@ -68,14 +60,6 @@ enum SecureSignError: Error {
     case biometricLockout
     // Challenge validation errors
     case invalidInput
-    case invalidVersion
-    case invalidAlgorithm
-    case invalidSigFormat
-    case invalidExpiration
-    case forbiddenChars
-    case jsonParseError
-    case utf8Error
-    case cStringError
     // Signature conversion errors
     case invalidDerFormat
     case signatureConversionFailed
