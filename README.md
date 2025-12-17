@@ -20,8 +20,8 @@ This provides strong security guarantees:
 - 🛡️ **Compromising the app does not compromise the signing key**  
   Even with full app-level compromise, the private key remains inaccessible.
 
-Hardware-backed keys provide a higher level of security than software-based key storage and are recommended for
-authentication, device binding, and high-trust cryptographic operations.
+*Hardware-backed keys provide a higher level of security than software-based key storage and are recommended for
+authentication, device binding, and high-trust cryptographic operations.*
 
 ## Installation
 
