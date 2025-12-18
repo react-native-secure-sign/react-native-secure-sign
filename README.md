@@ -161,19 +161,19 @@ Error codes are organized by category:
 
 #### Key Generation and Management (1001-1012)
 
-| Code   | Description                         | Possible Causes                                                |
-| ------ | ----------------------------------- | -------------------------------------------------------------- |
-| `1001` | Key generation failed               | Secure Enclave error, insufficient permissions, hardware issue |
-| `1002` | Public key extraction failed        | Key exists but public key cannot be extracted                  |
-| `1003` | Access control creation failed      | Invalid biometric settings, system error                       |
-| `1004` | Key deletion failed                 | Authentication error, invalid parameters                       |
-| `1005` | Key not found                       | The specified key was not found in the Keychain                |
-| `1006` | Invalid key ID                      | The provided key identifier is invalid or cannot be processed  |
-| `1007` | Invalid key reference               | The retrieved key reference is not of the expected type        |
-| `1008` | Authentication failed               | Biometric or passcode authentication failed for key access     |
-| `1009` | Keychain query failed               | A general error occurred during a Keychain query operation     |
-| `1010` | Public key format conversion failed | SEC1 to SPKI DER conversion failed (Rust FFI error)            |
-| `1011` | Key already exists                  | Attempting to generate key with existing alias                 |
+| Code   | Description                          | Possible Causes                                                |
+| ------ | ------------------------------------ | -------------------------------------------------------------- |
+| `1001` | Key generation failed                | Secure Enclave error, insufficient permissions, hardware issue |
+| `1002` | Public key extraction failed         | Key exists but public key cannot be extracted                  |
+| `1003` | Access control creation failed       | Invalid biometric settings, system error                       |
+| `1004` | Key deletion failed                  | Authentication error, invalid parameters                       |
+| `1005` | Key not found                        | The specified key was not found in the Keychain                |
+| `1006` | Invalid key ID                       | The provided key identifier is invalid or cannot be processed  |
+| `1007` | Invalid key reference                | The retrieved key reference is not of the expected type        |
+| `1008` | Authentication failed                | Biometric or passcode authentication failed for key access     |
+| `1009` | Keychain query failed                | A general error occurred during a Keychain query operation     |
+| `1010` | Public key format conversion failed  | SEC1 to SPKI DER conversion failed (Rust FFI error)            |
+| `1011` | Key already exists                   | Attempting to generate key with existing alias                 |
 | `1012` | Key info extraction failed (Android) | Cannot retrieve key properties from KeyStore                   |
 
 #### Biometric Authentication (2001-2004)
@@ -226,12 +226,12 @@ Check if the device supports hardware-backed secure storage before using other m
 try {
   const supported = await checkHardwareSupport();
   if (supported) {
-    console.log('✅ Device supports hardware security');
+    console.log('Device supports hardware signing');
   } else {
-    console.log('❌ Device does not support hardware security');
+    console.log('Device does not support hardware signing');
   }
 } catch (error) {
-  console.error('Error checking hardware support:', error.code);
+  console.error('Error checking hardware support:', error);
 }
 ```
 
@@ -244,7 +244,6 @@ try {
   const publicKey = await generate('my-unique-key-id', {
     requireUserAuthentication: true,
   });
-  console.log('✅ Key generated successfully');
   console.log('Public Key (Base64url):', publicKey);
 } catch (error) {
   console.error('Error Code:', error.code);
@@ -329,7 +328,6 @@ try {
   const dataBase64url = "SGVsbG8sIFdvcmxkIQ" // base64url
   
   const signature = await sign('my-unique-key-id', dataBase64url);
-  console.log('✅ Signature created successfully');
   console.log('Signature (Base64url P1363):', signature);
 } catch (error) {
   console.error('Error Code:', error.code);
@@ -383,12 +381,12 @@ try {
 
 #### removeKey()
 
-Remove a key pair from secure storage.
+Remove a key pair from hardware.
 
 ```javascript
 try {
   await removeKey('my-unique-key-id');
-  console.log('✅ Key removed successfully');
+  console.log('Key removed successfully');
 } catch (error) {
   console.error('Error Code:', error.code);
   switch (error.code) {
@@ -441,18 +439,9 @@ async function registerAccount() {
 
     // 2. Generate key pair (if not exists)
     let publicKey;
-    try {
       publicKey = await generate(KEY_ID, {
         requireUserAuthentication: true,
       });
-    } catch (error) {
-      if (error.code === '1011') {
-        // Key exists, retrieve public key
-        publicKey = await getPublicKey(KEY_ID);
-      } else {
-        throw error;
-      }
-    }
 
     // 3. Sign the challenge
     const signature = await sign(KEY_ID, informationToSign_b64u);
@@ -474,15 +463,73 @@ async function registerAccount() {
       // Handle library errors
       console.error('Secure Sign Error:', error.code);
       switch (error.code) {
+        // Key Management Errors (1001-1012)
+        case '1001':
+          console.error('Key generation failed. Check device hardware support.');
+          break;
+        case '1002':
+          console.error('Public key extraction failed.');
+          break;
+        case '1003':
+          console.error('Access control creation failed. Check biometric settings.');
+          break;
+        case '1004':
+          console.error('Key deletion failed.');
+          break;
+        case '1005':
+          console.error('Key not found. Generate a key first.');
+          break;
+        case '1006':
+          console.error('Invalid key ID provided.');
+          break;
+        case '1007':
+          console.error('Invalid key reference.');
+          break;
+        case '1008':
+          console.error('Authentication failed. Please try again.');
+          break;
+        case '1009':
+          console.error('Keychain query failed. System error.');
+          break;
+        case '1010':
+          console.error('Public key format conversion failed.');
+          break;
+        case '1011':
+          console.error('Key already exists. Use existing key or remove it first.');
+          break;
+        case '1012':
+          console.error('Key info extraction failed.');
+          break;
+        // Biometric Authentication Errors (2001-2004)
         case '2001':
+          console.error('Biometric authentication not available. Enable biometrics in device settings.');
+          break;
         case '2002':
-          console.log('Please enable biometric authentication');
+          console.error('No biometric data enrolled. Please set up Touch ID/Face ID.');
           break;
         case '2003':
-          console.log('Device locked. Please unlock and try again');
+          console.error('Biometric authentication locked out. Please unlock device and try again.');
+          break;
+        case '2004':
+          console.error('Authentication cancelled by user.');
+          break;
+        // Decode Error (3001)
+        case '3001':
+          console.error('Invalid input. Check base64Url format.');
+          break;
+        // Signature Conversion Errors (4001-4002)
+        case '4001':
+          console.error('Invalid DER format.');
+          break;
+        case '4002':
+          console.error('Signature conversion failed.');
+          break;
+        // Unknown Error (9999)
+        case '9999':
+          console.error('Unknown error occurred.');
           break;
         default:
-          console.log('Error occurred:', error.code);
+          console.error('Unhandled error occurred:', error);
       }
     } else {
       // Handle other errors (network, etc.)

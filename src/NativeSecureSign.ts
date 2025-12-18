@@ -1,5 +1,5 @@
 import { TurboModuleRegistry, type TurboModule } from 'react-native';
-interface GenerateOptions {
+export interface GenerateOptions {
   requireUserAuthentication: boolean;
 }
 
