@@ -459,9 +459,6 @@ async function registerAccount() {
     console.log('✅ Registration successful:', finishResponse.data);
     return finishResponse.data;
   } catch (error) {
-    if (error.code) {
-      // Handle library errors
-      console.error('Secure Sign Error:', error.code);
       switch (error.code) {
         // Key Management Errors (1001-1012)
         case '1001':
@@ -531,11 +528,6 @@ async function registerAccount() {
         default:
           console.error('Unhandled error occurred:', error);
       }
-    } else {
-      // Handle other errors (network, etc.)
-      console.error('Registration failed:', error);
-    }
-    throw error;
   }
 }
 ```
