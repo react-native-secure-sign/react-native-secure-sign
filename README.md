@@ -10,16 +10,16 @@ Hardware-backed means that cryptographic keys are generated, stored, and used in
 
 This provides strong security guarantees:
 
-- 🔒 **Private keys are protected from malware and memory dumps**  
+- **Private keys are protected from malware and memory dumps**  
   The key material never enters application memory and cannot be read or copied.
 
-- 📱 **Signatures can only be created on the physical device**  
+- **Signatures can only be created on the physical device**  
   A valid signature proves that the operation was performed on a specific device.
 
-- 🧑‍🔐 **Biometric authentication can be enforced for every signing operation**  
+- **Biometric authentication can be enforced for every signing operation**  
   Each signature can require Face ID, Touch ID, or Android biometric authentication.
 
-- 🛡️ **Compromising the app does not compromise the signing key**  
+- **Compromising the app does not compromise the signing key**  
   Even with full app-level compromise, the private key remains inaccessible.
 
 **Hardware-backed keys provide a higher level of security than software-based key storage and are recommended for
