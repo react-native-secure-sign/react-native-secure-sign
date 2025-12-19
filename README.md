@@ -290,7 +290,6 @@ Retrieve the public key for an existing key pair.
 ```javascript
 try {
   const publicKey = await getPublicKey('my-unique-key-id');
-  console.log('✅ Public key retrieved');
   console.log('Public Key (Base64url):', publicKey);
 } catch (error) {
   console.error('Error Code:', error.code);
@@ -431,11 +430,14 @@ import axios from 'axios';
 
 const KEY_ID = 'com.example.app.key';
 
+// react-native-secure-sign-be runs on port 8080
+const API_BASE = 'http://X.X.X.X:8080'
+
 async function registerAccount() {
   try {
     // 1. Initiate registration challenge with server
     const challengeResponse = await axios.post(
-      'https://api.example.com/v1/register/initiate-challenge'
+      `${API_BASE}/v1/register/initiate-challenge`
     );
     const { challengeId, informationToSign_b64u } = challengeResponse.data;
 
@@ -450,7 +452,7 @@ async function registerAccount() {
 
     // 4. Complete registration with server
     const finishResponse = await axios.post(
-      'https://api.example.com/v1/register/finish-challenge',
+      `${API_BASE}/v1/register/finish-challenge`,
       {
         challengeId,
         signature,
