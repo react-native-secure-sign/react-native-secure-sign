@@ -415,6 +415,8 @@ try {
 
 #### Complete Example: Registration Flow
 
+> **Backend Implementation:** You can find a complete backend implementation that can be run and tested for the registration flow at [react-native-secure-sign-be](https://github.com/react-native-secure-sign/react-native-secure-sign-be).
+
 Example of a complete registration flow using the library:
 
 ```javascript
@@ -456,7 +458,7 @@ async function registerAccount() {
       }
     );
 
-    console.log('✅ Registration successful:', finishResponse.data);
+    console.log('Registration successful:', finishResponse.data);
     return finishResponse.data;
   } catch (error) {
       switch (error.code) {
