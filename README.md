@@ -249,31 +249,24 @@ try {
   console.error('Error Code:', error.code);
   switch (error.code) {
     case '1011':
-      // Key already exists - remove it first or use a different keyId
       console.log('Key already exists. Remove it first or use a different keyId');
       break;
     case '2001':
-      // Biometric authentication not available
       console.log('Biometric authentication not available on this device');
       break;
     case '2002':
-      // No biometric data enrolled
       console.log('Please set up Touch ID/Face ID in device settings');
       break;
     case '2003':
-      // Biometric authentication locked out
-      console.log('Too many failed biometric attempts.x');
+      console.log('Too many failed biometric attempts');
       break;
     case '1001':
-      // Key generation failed
-      console.log('Failed to generate key. Check device security settings');
+      console.log('Failed to generate key');
       break;
     case '1003':
-      // Access control creation failed
       console.log('Failed to create access control');
       break;
     case '1006':
-      // Invalid key ID
       console.log('Invalid key ID provided');
       break;
     default:
@@ -295,19 +288,15 @@ try {
   console.error('Error Code:', error.code);
   switch (error.code) {
     case '1005':
-      // Key not found
       console.log('Key not found. Generate a key first');
       break;
     case '1006':
-      // Invalid key ID
       console.log('Invalid key ID provided');
       break;
     case '1008':
-      // Authentication failed (user cancelled or failed biometric)
       console.log('Authentication failed or cancelled');
       break;
     case '1002':
-      // Public key extraction failed
       console.log('Failed to extract public key');
       break;
     default:
@@ -324,7 +313,7 @@ Sign data using a private key stored in hardware-backed secure storage.
 ```javascript
 try {
   const dataToSign = 'Hello, World!';
-  const dataBase64url = "SGVsbG8sIFdvcmxkIQ" // base64url
+  const dataBase64url = "SGVsbG8sIFdvcmxkIQ"
   
   const signature = await sign('my-unique-key-id', dataBase64url);
   console.log('Signature (Base64url P1363):', signature);
@@ -332,43 +321,32 @@ try {
   console.error('Error Code:', error.code);
   switch (error.code) {
     case '1005':
-      // Key not found
       console.log('Key not found. Generate a key first');
       break;
     case '1008':
-      // Authentication failed (user cancelled or failed biometric)
       console.log('Authentication failed or cancelled');
       break;
     case '2001':
-      // Biometric authentication not available
       console.log('Biometric authentication not available');
       break;
     case '2002':
-      // No biometric data enrolled
       console.log('Please set up biometric authentication');
       break;
-    case '2003':
-      // Biometric authentication locked out
       console.log('Too many failed attempts. Unlock device first');
       break;
     case '2004':
-      // Authentication cancelled by user
       console.log('User cancelled authentication');
       break;
     case '3001':
-      // Decode error - invalid Base64url input
       console.log('Invalid input format. Provide Base64url encoded data');
       break;
     case '4001':
-      // Invalid DER format
       console.log('Invalid signature format');
       break;
     case '4002':
-      // Signature conversion failed
       console.log('Failed to convert signature format');
       break;
     case '5001':
-      // Algorithm not supported
       console.log('Signing algorithm not supported');
       break;
     default:
@@ -390,19 +368,15 @@ try {
   console.error('Error Code:', error.code);
   switch (error.code) {
     case '1005':
-      // Key not found
       console.log('Key not found. It may already be removed');
       break;
     case '1004':
-      // Key deletion failed
       console.log('Failed to delete key');
       break;
     case '1006':
-      // Invalid key ID
       console.log('Invalid key ID provided');
       break;
     case '1008':
-      // Authentication failed
       console.log('Authentication required to remove key');
       break;
     default:
