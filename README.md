@@ -386,9 +386,32 @@ try {
 }
 ```
 
-#### Complete Example: Registration Flow
+#### Testing with Backend
 
-> **Backend Implementation:** You can find a complete backend implementation that can be run and tested for the registration flow at [react-native-secure-sign-be](https://github.com/react-native-secure-sign/react-native-secure-sign-be).
+To test the complete signing process, you can run the backend and connect it to your mobile application:
+
+1. **Clone the backend repository:**
+   ```bash
+   git clone https://github.com/react-native-secure-sign/react-native-secure-sign-be.git
+   cd react-native-secure-sign-be
+   ```
+
+2. **Run the backend:**
+   ```bash
+   # Follow the instructions in the backend repository
+   # The backend runs on port 8080 by default
+   ```
+
+3. **Configure the mobile application:**
+   - Ensure that the mobile app and backend are on the same network
+   - Update `API_BASE` in your app code to point to your computer's IP address (e.g., `http://192.168.1.100:8080`)
+
+4. **Test the signing process:**
+   - Run the mobile application
+   - Execute the registration flow, which will generate a key, sign the challenge, and send the data to the backend
+   - The backend will verify the signature and confirm the correctness of the process
+
+The backend implements a complete registration flow with signature verification, allowing you to comprehensively test the entire signing process using hardware-backed security keys.
 
 Example of a complete registration flow using the library:
 
