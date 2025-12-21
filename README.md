@@ -386,7 +386,7 @@ try {
 }
 ```
 
-#### Testing with Backend
+## Testing with Backend
 
 To test the complete signing process, you can run the backend and connect it to your mobile application:
 
