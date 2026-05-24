@@ -1,5 +1,5 @@
 #import "SecureSign.h"
-#import "SecureSign-Swift.h"
+#import "SecureSignSwift.h"
 
 @implementation SecureSign {
     SecureSignImpl *moduleImpl;

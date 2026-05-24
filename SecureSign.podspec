@@ -13,13 +13,13 @@ Pod::Spec.new do |s|
   s.platforms    = { :ios => min_ios_version_supported }
   s.source       = { :git => "https://github.com/react-native-secure-sign/react-native-secure-sign.git", :tag => "#{s.version}" }
 
-  s.source_files = "ios/**/*.{h,m,mm,cpp,swift}"
-  s.private_header_files = "ios/**/*.h"
+  s.source_files = "ios/*.{h,m,mm,cpp,swift}"
+  s.private_header_files = ["ios/SecureSign.h", "ios/SecureSignSwift.h"]
 
 
   s.static_framework = true
   s.vendored_frameworks = "ios/secure_sign_rust.xcframework"
-  
+
 
   install_modules_dependencies(s)
 end
