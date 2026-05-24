@@ -1,6 +1,6 @@
 {
   "name": "react-native-secure-sign",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "react-native-secure-sign lets you generates and use cryptographic signatures backed by hardware security on iOS and Android",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
