@@ -86,7 +86,7 @@ class SecureSignModule(reactContext: ReactApplicationContext) :
       }
     }
   }
-  
+
   override fun sign(keyId: String, information: String, promise: Promise) {
     scope.launch {
       try {
@@ -102,7 +102,7 @@ class SecureSignModule(reactContext: ReactApplicationContext) :
         }
 
         withContext(Dispatchers.Main) {
-          val activity = currentActivity as? FragmentActivity
+          val activity = reactApplicationContext.currentActivity as? FragmentActivity
           if (activity == null) {
             val err = SecureSignError.NoActivity
             promise.reject(err.errorCode.toString(), err.message, err)
